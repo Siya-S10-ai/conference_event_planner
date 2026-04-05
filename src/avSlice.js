@@ -3,6 +3,36 @@ import { createSlice } from "@reduxjs/toolkit";
 export const avSlice = createSlice({
   name: "av",
   initialState: [
+    {
+      img: "",
+      name: "",
+      cost: 0,
+      quantity: 0,
+    },
+    {
+      img: "",
+      name: "",
+      cost: 0,
+      quantity: 0,
+    },
+    {
+      img: "",
+      name: "",
+      cost: 0,
+      quantity: 0,
+    },
+    {
+      img: "",
+      name: "",
+      cost: 0,
+      quantity: 0,
+    },
+    {
+      img: "",
+      name: "",
+      cost: 0,
+      quantity: 0,
+    },
     
   ],
 
