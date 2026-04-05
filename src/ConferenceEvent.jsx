@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./ConferenceEvent.css";
 import TotalCost from "./TotalCost";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux"; // The useSelector() function retrives venue items from the Redux store state.
 import { incrementQuantity, decrementQuantity } from "./venueSlice";
 const ConferenceEvent = () => {
     const [showItems, setShowItems] = useState(false);
@@ -47,13 +47,32 @@ const ConferenceEvent = () => {
     const ItemsDisplay = ({ items }) => {
 
     };
+    /**The arrow function is assigned to the constant calculateTotalCost
+     * and takes one string parameter, section, that indicates the section is calculated.
+     */
     const calculateTotalCost = (section) => {
-        let totalCost = 0;
+        let totalCost = 0; // initialization of totalCost
+        /**Conditional check:
+         * The function checks if the section passed as an argument
+         * equals the string "venu".
+         */
         if (section === "venue") {
+          /**If true, the total cost for the venue items will be calculated.
+           * Iteration over venueItems:
+           * The venueItems items array represents an item with properties
+           * cost and quantity.
+           * 
+           * The forEach function iterates over each item in the venueItems array.
+           * For each item, it multiplies item.cost by item.quantity
+           * and adds the result to totalCost.
+           */
           venueItems.forEach((item) => {
             totalCost += item.cost * item.quantity;
           });
         }
+        /**After the loop it complete, the function returns the
+         * calculated totalCost.
+         */
         return totalCost;
       };
     const venueTotalCost = calculateTotalCost("venue");
@@ -144,6 +163,10 @@ const ConferenceEvent = () => {
             </div>
           ))}
         </div>
+        {/* Function call:
+        The function calculateTotalCost is called with the "venue" argument,
+        which calculates the total cost for the items in the "venue" section.
+        The result of this calculation is stored in the constant venueTotalCost*/}
         <div className="total_cost">Total Cost: ${venueTotalCost}</div>
       </div>
 
