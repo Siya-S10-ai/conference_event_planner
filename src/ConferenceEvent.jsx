@@ -3,10 +3,12 @@ import "./ConferenceEvent.css";
 import TotalCost from "./TotalCost";
 import { useSelector, useDispatch } from "react-redux"; // The useSelector() function retrives venue items from the Redux store state.
 import { incrementQuantity, decrementQuantity } from "./venueSlice";
+import { decrementAvQuantity, incrementAvQuantity } from "./avSlice";
 const ConferenceEvent = () => {
     const [showItems, setShowItems] = useState(false);
     const [numberOfPeople, setNumberOfPeople] = useState(1);
     const venueItems = useSelector((state) => state.venue);
+    const avItems = useSelector((store) => state.av);
     const dispatch = useDispatch();
     const remainingAuditoriumQuantity = 3 - venueItems.find(item => item.name === "Auditorium Hall (Capacity:200)").quantity;
 
@@ -28,10 +30,15 @@ const ConferenceEvent = () => {
           dispatch(decrementQuantity(index));
         }
       };
+      /**After displaying items from the avItems using the map() method:
+       * we need to dispatch the actions.
+       */
     const handleIncrementAvQuantity = (index) => {
+      dispatch(incrementAvQuantity(index));
     };
 
     const handleDecrementAvQuantity = (index) => {
+      dispatch(decrementAvQuantity(index));
     };
 
     const handleMealSelection = (index) => {
@@ -69,6 +76,10 @@ const ConferenceEvent = () => {
           venueItems.forEach((item) => {
             totalCost += item.cost * item.quantity;
           });
+        } else if (section === "av") {
+          avItems.forEach((item) => {
+            totalCost += item.cost * item.quantity;
+          });
         }
         /**After the loop it complete, the function returns the
          * calculated totalCost.
@@ -76,6 +87,8 @@ const ConferenceEvent = () => {
         return totalCost;
       };
     const venueTotalCost = calculateTotalCost("venue");
+    const avTotalCost = calculateTotalCost("av");
+
 
     const navigateToProducts = (idType) => {
         if (idType == '#venue' || idType == '#addons' || idType == '#meals') {
@@ -180,9 +193,31 @@ const ConferenceEvent = () => {
 
                                 </div>
                                 <div className="addons_selection">
-
+                                  {/* This code uses the map() function to iterate over an array
+                                  called avItems, which contains information about audio-visual
+                                  items. */}
+                                  {avItems.map((item, index) => (
+                                    // Each item in the array creates a <div> element with
+                                    // the class av_data venue_main.
+                                    <div className="av_data venue_main" key={index}>
+                                      {/* Inside the div:
+                                          An <img> tag displays the item's image. */}
+                                      <div className="img">
+                                        <img src={item.img} alt={item.name} />
+                                      </div>
+                                      <div>
+                                        <div className="text"> {item.name} </div>
+                                        <div> R{item.cost} </div>
+                                        <div className="addons_btn">
+                                          <button className="btn-warning" onClick={() => handleDecrementAvQuantity(index)}> &ndash; </button>
+                                          <span className="quantity-value"> {item.quantity}</span>
+                                          <button className="btn-success" onClick={() => handleIncrementAvQuantity(index)}> &#43; </button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  ))}
                                 </div>
-                                <div className="total_cost">Total Cost:</div>
+                                <div className="total_cost">Total Cost: {avTotalCost}</div>
 
                             </div>
 
